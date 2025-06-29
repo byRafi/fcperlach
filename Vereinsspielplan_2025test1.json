@@ -1,0 +1,83 @@
+[
+  {
+    "datum": "2025-07-27T13:30:00",
+    "spiel": "FC Perlach München vs. VfR Haag/Amper",
+    "mannschaft": "Herren",
+    "spieltyp": "FS",
+    "klasse": "Freundschaftsspiele",
+    "ort": "BSA Krehlebogen, Platz 1,Krehlebogen 15,81737 München",
+    "link": ""
+  },
+  {
+    "datum": "2025-08-03T13:30:00",
+    "spiel": "FC Perlach München vs. TSV Turnerbund M. II",
+    "mannschaft": "Herren",
+    "spieltyp": "FS",
+    "klasse": "Freundschaftsspiele",
+    "ort": "BSA Krehlebogen, Platz 1,Krehlebogen 15,81737 München",
+    "link": ""
+  },
+  {
+    "datum": "2025-08-17T13:30:00",
+    "spiel": "FC Perlach München vs. SV Gar.Trudering II",
+    "mannschaft": "Herren",
+    "spieltyp": "FS",
+    "klasse": "Freundschaftsspiele",
+    "ort": "BSA Krehlebogen, Platz 1,Krehlebogen 15,81737 München",
+    "link": ""
+  },
+  {
+    "datum": "2025-07-19T14:00:00",
+    "spiel": "FC Perlach 1925 München U15 vs. ESV München-Ost U15",
+    "mannschaft": "C-Junioren",
+    "spieltyp": "FS",
+    "klasse": "Freundschaftsspiele",
+    "ort": "BSA Krehlebogen, Platz 1,Krehlebogen 15,81737 München",
+    "link": ""
+  },
+  {
+    "datum": "2025-07-19T10:00:00",
+    "spiel": "SVN München U12 vs. FC Perlach 1925 München U12",
+    "mannschaft": "D-Junioren",
+    "spieltyp": "FS",
+    "klasse": "Freundschaftsspiele",
+    "ort": "BSA Bert-Brecht-Allee, Rasenplatz 2,Fritz-Erler-Str. 3,81737 München",
+    "link": ""
+  },
+  {
+    "datum": "2025-07-13T14:00:00",
+    "spiel": "TuS Holzkirchen vs. FC Perlach 1925 München",
+    "mannschaft": "Frauen",
+    "spieltyp": "FS",
+    "klasse": "Freundschaftsspiele",
+    "ort": "Sportplatz Holzkirchen, Platz 1,Haidstr.,83607 Holzkirchen",
+    "link": ""
+  },
+  {
+    "datum": "2025-07-20T12:00:00",
+    "spiel": "ESV München vs. FC Perlach 1925 München",
+    "mannschaft": "Frauen",
+    "spieltyp": "FS",
+    "klasse": "Freundschaftsspiele",
+    "ort": "Sportanlage Margarethe-Danzi-Straße, Platz 1,Margarethe-Danzi-Str. 21,80639 München",
+    "link": ""
+  },
+  {
+    "datum": "2025-08-17T18:00:00",
+    "spiel": "TSV Egmating vs. FC Perlach 1925 München",
+    "mannschaft": "Frauen",
+    "spieltyp": "FS",
+    "klasse": "Freundschaftsspiele",
+    "ort": "FS          Freundschaftsspiele         31.08.2025 11:00          SV WB Allianz München                             FC Perlach 1925 München",
+    "link": ""
+  },
+  {
+    "datum": "2025-07-05T10:00:00",
+    "spiel": "TSV München-Milbertshofen vs. FC Perlach 1925 München I",
+    "mannschaft": "D-Juniorinnen",
+    "spieltyp": "ME",
+    "klasse": "Kreisliga",
+    "ort": "BSA Hans-Denzinger-Straße, Platz 2 (klein),Hans-Denzinger-Str. 6,80807 München",
+    "link": ""
+  }
+]
