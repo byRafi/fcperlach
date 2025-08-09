@@ -157,7 +157,7 @@ export default function PlatzEditor() {
       </option>
     ))}
   </select>
-</div
+</div>
 </div>
       </div>
 
