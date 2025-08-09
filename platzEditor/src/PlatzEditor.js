@@ -129,37 +129,38 @@ export default function PlatzEditor() {
               >
                 {visibleTeams.filter(t => t.platz === feld).map((t) => {
                   const bounds = fieldRefs.current[feld]?.getBoundingClientRect() || { width: 1, height: 1 };
-                  const pxX = (t.positionPercent.x / 100) * bounds.width;
-                  const pxY = (t.positionPercent.y / 100) * bounds.height;
                   const pxW = (t.sizePercent.width / 100) * bounds.width;
                   const pxH = (t.sizePercent.height / 100) * bounds.height;
+                  const pxX = Math.min((t.positionPercent.x / 100) * bounds.width, bounds.width - pxW);
+                  const pxY = Math.min((t.positionPercent.y / 100) * bounds.height, bounds.height - pxH);
 
                   return (
                     <Rnd
                       key={t.id}
                       bounds="parent"
-                      default={{ x: pxX, y: pxY, width: pxW, height: pxH }}
+                      position={{ x: pxX, y: pxY }}
+                      size={{ width: pxW, height: pxH }}
                       dragGrid={[gridSize, gridSize]}
                       resizeGrid={[gridSize, gridSize]}
                       enableResizing
                       onDragStop={(_, d) => {
-                        const maxX = bounds.width - pxW;
-                        const maxY = bounds.height - pxH;
-                        const clampedX = Math.max(0, Math.min(d.x, maxX));
-                        const clampedY = Math.max(0, Math.min(d.y, maxY));
+                        const clampedX = Math.max(0, Math.min(d.x, bounds.width - pxW));
+                        const clampedY = Math.max(0, Math.min(d.y, bounds.height - pxH));
                         const percentX = (clampedX / bounds.width) * 100;
                         const percentY = (clampedY / bounds.height) * 100;
                         updateById(t.id, tt => ({ ...tt, positionPercent: { x: percentX, y: percentY } }));
                       }}
                       onResizeStop={(_, __, ref, __delta, pos) => {
-                        const width = (parseInt(ref.style.width) / bounds.width) * 100;
-                        const height = (parseInt(ref.style.height) / bounds.height) * 100;
+                        const newW = parseInt(ref.style.width);
+                        const newH = parseInt(ref.style.height);
+                        const percentW = (newW / bounds.width) * 100;
+                        const percentH = (newH / bounds.height) * 100;
                         const percentX = (pos.x / bounds.width) * 100;
                         const percentY = (pos.y / bounds.height) * 100;
                         updateById(t.id, tt => ({
                           ...tt,
-                          sizePercent: { width, height },
-                          positionPercent: { x: percentX, y: percentY }
+                          sizePercent: { width: percentW, height: percentH },
+                          positionPercent: { x: Math.max(0, Math.min(percentX, 100 - percentW)), y: Math.max(0, Math.min(percentY, 100 - percentH)) }
                         }));
                       }}
                       style={{
