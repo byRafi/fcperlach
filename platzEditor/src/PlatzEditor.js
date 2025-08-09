@@ -60,37 +60,6 @@ export default function PlatzEditor() {
     setTeams(updated);
   };
 
-  const updateDrag = (id, d, feld) => {
-    const bounds = fieldRefs.current[feld]?.getBoundingClientRect();
-    const team = teams.find(t => t.id === id);
-    if (!bounds || !team) return;
-
-    const pxW = (team.sizePercent.width / 100) * bounds.width;
-    const pxH = (team.sizePercent.height / 100) * bounds.height;
-
-    const maxX = bounds.width - pxW;
-    const maxY = bounds.height - pxH;
-
-    const clampedX = Math.max(0, Math.min(d.x, maxX));
-    const clampedY = Math.max(0, Math.min(d.y, maxY));
-
-    const percentX = (clampedX / bounds.width) * 100;
-    const percentY = (clampedY / bounds.height) * 100;
-
-    updateById(id, t => ({
-      ...t,
-      positionPercent: { x: percentX, y: percentY }
-    }));
-  };
-
-  const updateSize = (id, widthPx, heightPx, feld) => {
-    const bounds = fieldRefs.current[feld]?.getBoundingClientRect();
-    if (!bounds) return;
-    const width = (widthPx / bounds.width) * 100;
-    const height = (heightPx / bounds.height) * 100;
-    updateById(id, t => ({ ...t, sizePercent: { width, height } }));
-  };
-
   const toggleDayInForm = (day) => {
     setForm((prev) => {
       const tage = prev.tage.includes(day)
@@ -169,15 +138,29 @@ export default function PlatzEditor() {
                     <Rnd
                       key={t.id}
                       bounds="parent"
-                      size={{ width: pxW, height: pxH }}
-                      position={{ x: pxX, y: pxY }}
+                      default={{ x: pxX, y: pxY, width: pxW, height: pxH }}
                       dragGrid={[gridSize, gridSize]}
                       resizeGrid={[gridSize, gridSize]}
                       enableResizing
-                      onDragStop={(_, d) => updateDrag(t.id, d, feld)}
+                      onDragStop={(_, d) => {
+                        const maxX = bounds.width - pxW;
+                        const maxY = bounds.height - pxH;
+                        const clampedX = Math.max(0, Math.min(d.x, maxX));
+                        const clampedY = Math.max(0, Math.min(d.y, maxY));
+                        const percentX = (clampedX / bounds.width) * 100;
+                        const percentY = (clampedY / bounds.height) * 100;
+                        updateById(t.id, tt => ({ ...tt, positionPercent: { x: percentX, y: percentY } }));
+                      }}
                       onResizeStop={(_, __, ref, __delta, pos) => {
-                        updateSize(t.id, parseInt(ref.style.width), parseInt(ref.style.height), feld);
-                        updateDrag(t.id, pos, feld);
+                        const width = (parseInt(ref.style.width) / bounds.width) * 100;
+                        const height = (parseInt(ref.style.height) / bounds.height) * 100;
+                        const percentX = (pos.x / bounds.width) * 100;
+                        const percentY = (pos.y / bounds.height) * 100;
+                        updateById(t.id, tt => ({
+                          ...tt,
+                          sizePercent: { width, height },
+                          positionPercent: { x: percentX, y: percentY }
+                        }));
                       }}
                       style={{
                         backgroundColor: t.color,
