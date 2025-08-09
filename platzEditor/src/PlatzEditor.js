@@ -119,7 +119,7 @@ export default function PlatzEditor() {
 
       <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
         <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap', alignItems: 'center' }}>
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#fff', padding: '1rem 1.5rem', borderRadius: '0.75rem', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
     <label style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>Wochentag</label>
     <select value={selectedDay} onChange={e => setSelectedDay(e.target.value)} style={{ padding: '0.5rem', borderRadius: '0.5rem' }}>
       {weekdays.map(day => <option key={day}>{day}</option>)}
