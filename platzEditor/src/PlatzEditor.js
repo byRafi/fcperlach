@@ -118,13 +118,33 @@ export default function PlatzEditor() {
       </div>
 
       <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
-        <select value={selectedDay} onChange={e => setSelectedDay(e.target.value)}>
-          {weekdays.map(day => <option key={day}>{day}</option>)}
-        </select>
-        <select value={selectedTeamView} onChange={e => setSelectedTeamView(e.target.value)}>
-          <option value="Alle">Alle Teams</option>
-          {teams.map(t => <option key={t.id}>{t.teamname}</option>)}
-        </select>
+        <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap', alignItems: 'center' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <label style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>Wochentag</label>
+    <select value={selectedDay} onChange={e => setSelectedDay(e.target.value)} style={{ padding: '0.5rem', borderRadius: '0.5rem' }}>
+      {weekdays.map(day => <option key={day}>{day}</option>)}
+    </select>
+  </div>
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <label style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>Team</label>
+    <select value={selectedTeamView} onChange={e => {
+      const selectedId = e.target.value;
+      if (selectedId === 'Alle') {
+        setSelectedTeamView('Alle');
+        setSelectedDay('Montag');
+      } else {
+        const team = teams.find(t => t.id.toString() === selectedId);
+        if (team) {
+          setSelectedTeamView(team.teamname);
+          setSelectedDay(team.tage[0]);
+        }
+      }
+    }} style={{ padding: '0.5rem', borderRadius: '0.5rem' }}>
+      <option value="Alle">Alle Teams</option>
+      {teams.map(t => <option key={t.id} value={t.id}>{t.teamname}</option>)}
+    </select>
+  </div>
+</div>
       </div>
 
       <div style={{ marginTop: '2rem' }}>
