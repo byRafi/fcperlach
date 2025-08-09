@@ -150,7 +150,7 @@ export default function PlatzEditor() {
       setSelectedDay(team.tage[0]);
     }
   }} style={{ padding: '0.5rem', borderRadius: '0.5rem' }}>
-    <option value=\"\">-- Bitte Team wählen --</option>
+    <option value=\"Alle Teams\">-- Bitte Team wählen --</option>
     <option value=\"Alle\">Alle Teams</option>
     {teams.map(t => (
       <option key={t.id} value={t.id}>{t.jugend} - {t.teamname}</option>
