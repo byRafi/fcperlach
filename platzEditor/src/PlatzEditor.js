@@ -28,9 +28,9 @@ export default function PlatzEditor() {
   const saveTeam = () => {
     let updated = [...teams];
     if (selected !== null) {
-      updated[selected] = form;
+      updated = updated.map(t => (t.id === form.id ? form : t));
     } else {
-      updated.push(form);
+      updated.push({ ...form, id: Date.now() });
     }
     setTeams(updated);
     setForm({
@@ -39,18 +39,46 @@ export default function PlatzEditor() {
     setSelected(null);
   };
 
-  const editTeam = (index) => {
-    setForm(teams[index]);
-    setSelected(index);
+  const editTeam = (team) => {
+    setForm(team);
+    setSelected(team.id);
   };
 
-  const deleteTeam = (index) => {
-    const updated = teams.filter((_, i) => i !== index);
+  const deleteTeam = (id) => {
+    const updated = teams.filter((t) => t.id !== id);
     setTeams(updated);
-    if (selected === index) {
+    if (selected === id) {
       setForm({ teamname: '', zeit: '', jugend: '', tage: ['Montag'], platz: 'KS2', position: { x: 50, y: 50 }, size: { width: 120, height: 80 }, color: '#3b82f6' });
       setSelected(null);
     }
+  };
+
+  const updateById = (id, callback) => {
+    const updated = teams.map(t => t.id === id ? callback(t) : t);
+    setTeams(updated);
+  };
+
+  const updateDrag = (id, data) => {
+    updateById(id, t => ({ ...t, position: { x: data.x, y: data.y } }));
+  };
+
+  const updateSize = (id, key, value) => {
+    updateById(id, t => ({
+      ...t,
+      size: {
+        ...t.size,
+        [key]: parseInt(value)
+      }
+    }));
+  };
+
+  const toggleDayInForm = (day) => {
+    setForm((prev) => {
+      const tage = prev.tage.includes(day)
+        ? prev.tage.filter((d) => d !== day)
+        : [...prev.tage, day];
+      return { ...prev, tage };
+    });
   };
 
   const fields = ['KS2', 'KS1', 'Rasen'];
@@ -62,27 +90,6 @@ export default function PlatzEditor() {
     { name: 'Rot', hex: '#ef4444' },
     { name: 'Lila', hex: '#6366f1' }
   ];
-
-  const updateDrag = (index, data) => {
-    const updated = [...teams];
-    updated[index].position = { x: data.x, y: data.y };
-    setTeams(updated);
-  };
-
-  const updateSize = (index, key, value) => {
-    const updated = [...teams];
-    updated[index].size[key] = parseInt(value);
-    setTeams(updated);
-  };
-
-  const toggleDayInForm = (day) => {
-    setForm((prev) => {
-      const tage = prev.tage.includes(day)
-        ? prev.tage.filter((d) => d !== day)
-        : [...prev.tage, day];
-      return { ...prev, tage };
-    });
-  };
 
   const visibleTeams = teams.filter(t => t.tage.includes(selectedDay) && (selectedTeamView === 'Alle' || selectedTeamView === t.teamname));
 
@@ -119,7 +126,7 @@ export default function PlatzEditor() {
         </select>
         <select value={selectedTeamView} onChange={e => setSelectedTeamView(e.target.value)}>
           <option value="Alle">Alle Teams</option>
-          {teams.map(t => <option key={t.teamname}>{t.teamname}</option>)}
+          {teams.map(t => <option key={t.id}>{t.teamname}</option>)}
         </select>
       </div>
 
@@ -129,17 +136,17 @@ export default function PlatzEditor() {
             <div key={feld}>
               <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#111827' }}>{feld}</h3>
               <div style={{ position: 'relative', backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/4/45/Football_field.svg)', backgroundSize: 'cover', backgroundPosition: 'center', height: 740, borderRadius: '1rem', padding: '1rem' }}>
-                {visibleTeams.filter(t => t.platz === feld).map((t, i) => (
+                {visibleTeams.filter(t => t.platz === feld).map((t) => (
                   <Rnd
-                    key={i}
+                    key={t.id}
                     bounds="parent"
                     size={{ width: t.size.width, height: t.size.height }}
                     position={t.position}
-                    onDragStop={(_, d) => updateDrag(i, d)}
+                    onDragStop={(_, d) => updateDrag(t.id, d)}
                     onResizeStop={(_, __, ref, __delta, pos) => {
-                      updateSize(i, 'width', parseInt(ref.style.width));
-                      updateSize(i, 'height', parseInt(ref.style.height));
-                      updateDrag(i, pos);
+                      updateSize(t.id, 'width', parseInt(ref.style.width));
+                      updateSize(t.id, 'height', parseInt(ref.style.height));
+                      updateDrag(t.id, pos);
                     }}
                     style={{
                       backgroundColor: t.color,
