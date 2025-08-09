@@ -111,8 +111,10 @@ export default function PlatzEditor() {
 }} style={{ marginTop: '0.5rem', padding: '0.5rem', borderRadius: '0.5rem' }}>
   <option value="">Team bearbeiten...</option>
   {teams.map(t => (
-    <option key={t.id} value={t.id}>{t.teamname}</option>
-  ))}
+  <option key={t.id} value={t.id}>
+    {t.jugend} - {t.teamname}
+  </option>
+))}
 </select>
         </div>
       </div>
