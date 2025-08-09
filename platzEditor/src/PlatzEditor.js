@@ -78,12 +78,10 @@ export default function PlatzEditor() {
     { name: 'Grün', hex: '#10b981' }
 ];
 
-  const visibleTeams = teams.filter(t => {
-  if (selectedTeamView === 'Alle') {
-    return t.tage.includes(selectedDay);
-  }
-  return t.id.toString() === selectedTeamView;
-});
+  const visibleTeams = teams.filter(
+  t => t.tage.includes(selectedDay) && 
+  (selectedTeamView === 'Alle' || selectedTeamView === t.id.toString())
+);
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'Inter, sans-serif', backgroundColor: '#f9fafb', minHeight: '100vh' }}>
@@ -129,7 +127,15 @@ export default function PlatzEditor() {
   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#fff', padding: '1rem 1.5rem', borderRadius: '0.75rem', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
     <label style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>Wochentag</label>
     <select value={selectedDay} onChange={e => setSelectedDay(e.target.value)} style={{ padding: '0.5rem', borderRadius: '0.5rem' }}>
-      {weekdays.map(day => <option key={day}>{day}</option>)}
+      {weekdays.map(day => {
+  const selectedTeam = teams.find(t => t.id.toString() === selectedTeamView);
+  const isActive = selectedTeam?.tage.includes(day);
+  return (
+    <option key={day} value={day}>
+      {day} {isActive ? '⭐' : ''}
+    </option>
+  );
+})}
     </select>
   </div>
 <div style={{
