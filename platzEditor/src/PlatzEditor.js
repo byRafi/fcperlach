@@ -18,6 +18,7 @@ export default function PlatzEditor() {
   });
   const [selected, setSelected] = useState(null);
   const fieldRefs = useRef({});
+  const gridSize = 20; // Snap to 20px grid
 
   useEffect(() => {
     fetch('https://raw.githubusercontent.com/byRafi/fcperlach/main/Teamdaten.json')
@@ -155,6 +156,8 @@ export default function PlatzEditor() {
                       bounds="parent"
                       defaultSize={{ width: pxW, height: pxH }}
                       position={{ x: pxX, y: pxY }}
+                      dragGrid={[gridSize, gridSize]}
+                      resizeGrid={[gridSize, gridSize]}
                       onDragStop={(_, d) => updateDrag(t.id, d, feld)}
                       onResizeStop={(_, __, ref, __delta, pos) => {
                         updateSize(t.id, parseInt(ref.style.width), parseInt(ref.style.height), feld);
