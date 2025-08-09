@@ -125,7 +125,7 @@ export default function PlatzEditor() {
               <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#111827' }}>{feld}</h3>
               <div
                 ref={el => (fieldRefs.current[feld] = el)}
-                style={{ position: 'relative', width: '901px', height: '741px', backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/4/45/Football_field.svg)', backgroundSize: '100% 100%', backgroundPosition: 'center', borderRadius: '1rem', padding: '1rem', margin: '0 auto' }}
+                style={{ position: 'relative', width: '501px', height: '741px', backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/4/45/Football_field.svg)', backgroundSize: '100% 100%', backgroundPosition: 'center', borderRadius: '1rem', padding: '1rem', margin: '0 auto' }}
               >
                 {visibleTeams.filter(t => t.platz === feld).map((t) => {
                   const bounds = fieldRefs.current[feld]?.getBoundingClientRect() || { width: 1, height: 1 };
