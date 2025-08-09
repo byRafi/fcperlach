@@ -1,4 +1,9 @@
 {
+  "fields": [
+    "KS1",
+    "KS2",
+    "Rasen"
+  ],
   "montag": [
     {
       "field": "Rasen",
@@ -9,7 +14,7 @@
       "position": "ganz"
     },
     {
-      "field": 1,
+      "field": "Rasen",
       "name": "E1w",
       "type": "weibliche-jugend",
       "time": "17:30 - 19:00",
@@ -17,7 +22,7 @@
       "position": "oben-links"
     },
     {
-      "field": 1,
+      "field": "Rasen",
       "name": "B1w",
       "type": "weibliche-jugend",
       "time": "18:00 - 19:30",
@@ -25,7 +30,7 @@
       "position": "oben-rechts"
     },
     {
-      "field":1,
+      "field": "Rasen",
       "name": "C1w",
       "type": "weibliche-jugend",
       "time": "18:00 - 19:30",
@@ -33,7 +38,7 @@
       "position": "unten-links"
     },
     {
-      "field": 1,
+      "field": "Rasen",
       "name": "D1w",
       "type": "weibliche-jugend",
       "time": "17:30 - 19:00",
@@ -41,7 +46,7 @@
       "position": "unten-rechts"
     },
     {
-      "field": 2,
+      "field": "KS2",
       "name": "D2",
       "type": "maennliche-jugend",
       "time": "17:00 - 18:30",
@@ -49,7 +54,7 @@
       "position": "oben-links"
     },
     {
-      "field": 2,
+      "field": "KS2",
       "name": "E1",
       "type": "maennliche-jugend",
       "time": "17:00 - 18:30",
@@ -57,7 +62,7 @@
       "position": "oben-rechts"
     },
     {
-      "field": 2,
+      "field": "KS2",
       "name": "D3",
       "type": "maennliche-jugend",
       "time": "17:30 - 19:00",
@@ -65,7 +70,7 @@
       "position": "unten-links"
     },
     {
-      "field": 2,
+      "field": "KS2",
       "name": "E4",
       "type": "maennliche-jugend",
       "time": "17:00 - 18:30",
@@ -73,7 +78,7 @@
       "position": "unten-rechts"
     },
     {
-      "field": 2,
+      "field": "KS2",
       "name": "Damen Irish Rover",
       "type": "frauen",
       "time": "19:00 - 21:00",
