@@ -107,7 +107,7 @@ export default function PlatzEditor() {
       <div style={{ marginTop: '2rem' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
           {fields.map(feld => (
-            <div key={feld} style={{ position: 'relative', backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/2/26/Soccer_field_transparent.svg)', backgroundSize: 'cover', backgroundPosition: 'center', height: 500, borderRadius: '1rem', padding: '1rem' }}>
+            <div key={feld} style={{ position: 'relative', backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/4/45/Football_field.svg)', backgroundSize: 'cover', backgroundPosition: 'center', height: 500, borderRadius: '1rem', padding: '1rem' }}>
               <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#111827', backgroundColor: 'rgba(255,255,255,0.8)', padding: '0.25rem 0.5rem', borderRadius: '0.25rem', display: 'inline-block' }}>{feld}</h3>
               {visibleTeams.filter(t => t.platz === feld).map((t, i) => (
                 <Rnd
