@@ -1,7 +1,7 @@
 {
   "montag": [
     {
-      "field": 3,
+      "field": Rasen,
       "name": "Platzsperre",
       "type": "sperre",
       "time": "Dezember - Februar",
@@ -9,7 +9,7 @@
       "position": "ganz"
     },
     {
-      "field": 3,
+      "field": 1,
       "name": "E1w",
       "type": "weibliche-jugend",
       "time": "17:30 - 19:00",
@@ -17,7 +17,7 @@
       "position": "oben-links"
     },
     {
-      "field": 3,
+      "field": 1,
       "name": "B1w",
       "type": "weibliche-jugend",
       "time": "18:00 - 19:30",
@@ -25,7 +25,7 @@
       "position": "oben-rechts"
     },
     {
-      "field": 3,
+      "field":1,
       "name": "C1w",
       "type": "weibliche-jugend",
       "time": "18:00 - 19:30",
@@ -33,7 +33,7 @@
       "position": "unten-links"
     },
     {
-      "field": 3,
+      "field": 1,
       "name": "D1w",
       "type": "weibliche-jugend",
       "time": "17:30 - 19:00",
