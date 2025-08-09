@@ -78,7 +78,10 @@ export default function PlatzEditor() {
     { name: 'Grün', hex: '#10b981' }
 ];
 
-  const visibleTeams = teams.filter(t => t.tage.includes(selectedDay) && (selectedTeamView === 'Alle' || selectedTeamView === t.teamname));
+  const visibleTeams = teams.filter(
+  t => t.tage.includes(selectedDay) && 
+  (selectedTeamView === 'Alle' || selectedTeamView === t.id.toString())
+);
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'Inter, sans-serif', backgroundColor: '#f9fafb', minHeight: '100vh' }}>
@@ -138,23 +141,18 @@ export default function PlatzEditor() {
 }}>
   <label style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>Alle Teams</label>
   <select value={selectedTeamView} onChange={e => {
-    const selectedId = e.target.value;
-    if (!selectedId) {
-      setSelectedTeamView('Alle');
-      setSelectedDay('Montag');
-      return;
-    }
+  const selectedId = e.target.value;
+  if (selectedId === 'Alle') {
+    setSelectedTeamView('Alle');
+    setSelectedDay('Montag');
+  } else {
     const team = teams.find(t => t.id.toString() === selectedId);
     if (team) {
-      setSelectedTeamView(team.teamname);
+      setSelectedTeamView(team.id.toString()); // <-- ändere das!
       setSelectedDay(team.tage[0]);
     }
-  }} style={{ padding: '0.5rem', borderRadius: '0.5rem' }}>
-    <option value=\"Alle Teams\">-- Bitte Team wählen --</option>
-    <option value=\"Alle\">Alle Teams</option>
-    {teams.map(t => (
-      <option key={t.id} value={t.id}>{t.jugend} - {t.teamname}</option>
-    ))}
+  }
+}}>
   </select>
 </div>
 </div>
