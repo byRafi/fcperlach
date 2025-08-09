@@ -1,7 +1,7 @@
 {
   "montag": [
     {
-      "field": Rasen,
+      "field": "Rasen",
       "name": "Platzsperre",
       "type": "sperre",
       "time": "Dezember - Februar",
