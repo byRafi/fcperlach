@@ -62,12 +62,12 @@ export default function PlatzEditor() {
     updateById(id, t => ({ ...t, position: { x: data.x, y: data.y } }));
   };
 
-  const updateSize = (id, key, value) => {
+  const updateSize = (id, width, height) => {
     updateById(id, t => ({
       ...t,
       size: {
-        ...t.size,
-        [key]: parseInt(value)
+        width: width,
+        height: height
       }
     }));
   };
@@ -140,12 +140,11 @@ export default function PlatzEditor() {
                   <Rnd
                     key={t.id}
                     bounds="parent"
-                    size={{ width: t.size.width, height: t.size.height }}
+                    defaultSize={{ width: t.size.width, height: t.size.height }}
                     position={t.position}
                     onDragStop={(_, d) => updateDrag(t.id, d)}
                     onResizeStop={(_, __, ref, __delta, pos) => {
-                      updateSize(t.id, 'width', parseInt(ref.style.width));
-                      updateSize(t.id, 'height', parseInt(ref.style.height));
+                      updateSize(t.id, parseInt(ref.style.width), parseInt(ref.style.height));
                       updateDrag(t.id, pos);
                     }}
                     style={{
