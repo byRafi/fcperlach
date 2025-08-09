@@ -127,29 +127,37 @@ export default function PlatzEditor() {
       {weekdays.map(day => <option key={day}>{day}</option>)}
     </select>
   </div>
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-    <label style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>Team</label>
-    <select value={selectedTeamView} onChange={e => {
-      const selectedId = e.target.value;
-      if (selectedId === 'Alle') {
-        setSelectedTeamView('Alle');
-        setSelectedDay('Montag');
-      } else {
-        const team = teams.find(t => t.id.toString() === selectedId);
-        if (team) {
-          setSelectedTeamView(team.teamname);
-          setSelectedDay(team.tage[0]);
-        }
+  <div style={{
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  background: '#fff',
+  padding: '1rem 1.5rem',
+  borderRadius: '0.75rem',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+}}>
+  <label style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>Alle Teams</label>
+  <select value={selectedTeamView} onChange={e => {
+    const selectedId = e.target.value;
+    if (selectedId === 'Alle') {
+      setSelectedTeamView('Alle');
+      setSelectedDay('Montag');
+    } else {
+      const team = teams.find(t => t.id.toString() === selectedId);
+      if (team) {
+        setSelectedTeamView(team.teamname);
+        setSelectedDay(team.tage[0]);
       }
-    }} style={{ padding: '0.5rem', borderRadius: '0.5rem' }}>
-      <option value="Alle">Alle Teams</option>
-       {teams.map(t => (
-  <option key={t.id} value={t.id}>
-    {t.jugend} - {t.teamname}
-  </option>
-))}
-    </select>
-  </div>
+    }
+  }} style={{ padding: '0.5rem', borderRadius: '0.5rem' }}>
+    <option value="Alle">Alle Teams</option>
+    {teams.map(t => (
+      <option key={t.id} value={t.id}>
+        {t.jugend} - {t.teamname}
+      </option>
+    ))}
+  </select>
+</div
 </div>
       </div>
 
