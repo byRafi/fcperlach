@@ -136,54 +136,69 @@ export default function PlatzEditor() {
 
                   return (
                     <Rnd
-                      key={t.id}
-                      bounds="parent"
-                      default={{ x: pxX, y: pxY, width: pxW, height: pxH }}
-                      dragGrid={[gridSize, gridSize]}
-                      resizeGrid={[gridSize, gridSize]}
-                      enableResizing
-                      onDragStop={(_, d) => {
-                        const maxX = bounds.width - pxW;
-                        const maxY = bounds.height - pxH;
-                        const clampedX = Math.max(0, Math.min(d.x, maxX));
-                        const clampedY = Math.max(0, Math.min(d.y, maxY));
-                        const percentX = (clampedX / bounds.width) * 100;
-                        const percentY = (clampedY / bounds.height) * 100;
-                        updateById(t.id, tt => ({ ...tt, positionPercent: { x: percentX, y: percentY } }));
-                      }}
-                      onResizeStop={(_, __, ref, __delta, pos) => {
-                        const width = (parseInt(ref.style.width) / bounds.width) * 100;
-                        const height = (parseInt(ref.style.height) / bounds.height) * 100;
-                        const percentX = (pos.x / bounds.width) * 100;
-                        const percentY = (pos.y / bounds.height) * 100;
-                        updateById(t.id, tt => ({
-                          ...tt,
-                          sizePercent: { width, height },
-                          positionPercent: { x: percentX, y: percentY }
-                        }));
-                      }}
-                      style={{
-                        backgroundColor: t.color,
-                        color: 'white',
-                        fontWeight: 'bold',
-                        textAlign: 'center',
-                        padding: '0.5rem',
-                        borderRadius: '0.5rem',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        cursor: 'move',
-                        zIndex: 10,
-                        position: 'absolute'
-                      }}
-                    >
-                      <div>
-                        {t.jugend}<br />
-                        {t.zeit}<br />
-                        <strong>{t.teamname}</strong>
-                      </div>
-                    </Rnd>
+  key={t.id}
+  bounds="parent"
+  size={{
+    width: (t.sizePercent.width / 100) * bounds.width,
+    height: (t.sizePercent.height / 100) * bounds.height
+  }}
+  position={{
+    x: Math.min((t.positionPercent.x / 100) * bounds.width, bounds.width - (t.sizePercent.width / 100) * bounds.width),
+    y: Math.min((t.positionPercent.y / 100) * bounds.height, bounds.height - (t.sizePercent.height / 100) * bounds.height)
+  }}
+  dragGrid={[20, 20]}
+  resizeGrid={[20, 20]}
+  enableResizing
+  onDragStop={(_, d) => {
+    const pxW = (t.sizePercent.width / 100) * bounds.width;
+    const pxH = (t.sizePercent.height / 100) * bounds.height;
+    const clampedX = Math.max(0, Math.min(d.x, bounds.width - pxW));
+    const clampedY = Math.max(0, Math.min(d.y, bounds.height - pxH));
+    const percentX = (clampedX / bounds.width) * 100;
+    const percentY = (clampedY / bounds.height) * 100;
+    updateById(t.id, tt => ({
+      ...tt,
+      positionPercent: { x: percentX, y: percentY }
+    }));
+  }}
+  onResizeStop={(_, __, ref, __delta, pos) => {
+    const newW = parseInt(ref.style.width);
+    const newH = parseInt(ref.style.height);
+    const percentW = (newW / bounds.width) * 100;
+    const percentH = (newH / bounds.height) * 100;
+    const percentX = (pos.x / bounds.width) * 100;
+    const percentY = (pos.y / bounds.height) * 100;
+    updateById(t.id, tt => ({
+      ...tt,
+      sizePercent: { width: percentW, height: percentH },
+      positionPercent: {
+        x: Math.max(0, Math.min(percentX, 100 - percentW)),
+        y: Math.max(0, Math.min(percentY, 100 - percentH))
+      }
+    }));
+  }}
+  style={{
+    backgroundColor: t.color,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: '0.5rem',
+    borderRadius: '0.5rem',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    cursor: 'move',
+    zIndex: 10,
+    position: 'absolute'
+  }}
+>
+  <div>
+    {t.jugend}<br />
+    {t.zeit}<br />
+    <strong>{t.teamname}</strong>
+  </div>
+</Rnd>
                   );
                 })}
               </div>
