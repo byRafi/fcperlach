@@ -140,7 +140,7 @@ export default function PlatzEditor() {
   boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
 }}>
   <label style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>Alle Teams</label>
-  <select value={selectedTeamView} onChange={e => {
+<select value={selectedTeamView} onChange={e => {
   const selectedId = e.target.value;
   if (selectedId === 'Alle') {
     setSelectedTeamView('Alle');
@@ -148,12 +148,18 @@ export default function PlatzEditor() {
   } else {
     const team = teams.find(t => t.id.toString() === selectedId);
     if (team) {
-      setSelectedTeamView(team.id.toString()); // <-- ändere das!
+      setSelectedTeamView(team.id.toString());
       setSelectedDay(team.tage[0]);
     }
   }
-}}>
-  </select>
+}} style={{ padding: '0.5rem', borderRadius: '0.5rem' }}>
+  <option value="Alle">Alle Teams</option>
+  {teams.map(t => (
+    <option key={t.id} value={t.id.toString()}>
+      {t.jugend} - {t.teamname}
+    </option>
+  ))}
+</select>
 </div>
 </div>
       </div>
