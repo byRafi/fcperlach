@@ -91,47 +91,35 @@ export default function PlatzEditor() {
             <div key={feld} style={{ position: 'relative', background: '#e5e7eb', height: 500, borderRadius: '1rem', padding: '1rem' }}>
               <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#111827' }}>{feld}</h3>
               {teams.filter(t => t.platz === feld).map((t, i) => (
-                <Draggable
-                  key={i}
-                  bounds="parent"
-                  position={t.position}
-                  onStop={(_, data) => updateDrag(i, data)}
-                >
-                  <div
-                    style={{
-                      position: 'absolute',
-                      backgroundColor: t.color,
-                      color: 'white',
-                      padding: '0.5rem',
-                      borderRadius: '0.5rem',
-                      fontSize: '0.875rem',
-                      fontWeight: 'bold',
-                      width: t.size.width,
-                      height: t.size.height,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      cursor: 'move'
-                    }}
-                  >
-                    <div>
-                      {t.teamname}<br />{t.zeit}<br />
-                      <input
-                        type="number"
-                        value={t.size.width}
-                        onChange={e => updateSize(i, 'width', e.target.value)}
-                        style={{ width: 50 }}
-                      /> x
-                      <input
-                        type="number"
-                        value={t.size.height}
-                        onChange={e => updateSize(i, 'height', e.target.value)}
-                        style={{ width: 50 }}
-                      />
-                    </div>
-                  </div>
-                </Draggable>
+                <Rnd
+  key={i}
+  bounds="parent"
+  size={{ width: t.size.width, height: t.size.height }}
+  position={t.position}
+  onDragStop={(_, d) => updateDrag(i, d)}
+  onResizeStop={(_, __, ref, delta, pos) => {
+    updateSize(i, 'width', parseInt(ref.style.width));
+    updateSize(i, 'height', parseInt(ref.style.height));
+    updateDrag(i, pos);
+  }}
+  style={{
+    backgroundColor: t.color,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: '0.5rem',
+    borderRadius: '0.5rem',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    cursor: 'move'
+  }}
+>
+  <div>
+    {t.teamname}<br />
+    {t.zeit}
+  </div>
+</Rnd>
               ))}
             </div>
           ))}
