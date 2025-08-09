@@ -1,20 +1,84 @@
 {
   "montag": [
     {
-      "field": 1,
+      "field": 3,
+      "name": "Platzsperre",
+      "type": "sperre",
+      "time": "Dezember - Februar",
+      "kabine": "",
+      "position": "ganz"
+    },
+    {
+      "field": 3,
+      "name": "E1w",
+      "type": "weibliche-jugend",
+      "time": "17:30 - 19:00",
+      "kabine": "Kabine X",
+      "position": "oben-links"
+    },
+    {
+      "field": 3,
+      "name": "B1w",
+      "type": "weibliche-jugend",
+      "time": "18:00 - 19:30",
+      "kabine": "Kabine X",
+      "position": "oben-rechts"
+    },
+    {
+      "field": 3,
+      "name": "C1w",
+      "type": "weibliche-jugend",
+      "time": "18:00 - 19:30",
+      "kabine": "Kabine X",
+      "position": "unten-links"
+    },
+    {
+      "field": 3,
+      "name": "D1w",
+      "type": "weibliche-jugend",
+      "time": "17:30 - 19:00",
+      "kabine": "Kabine X",
+      "position": "unten-rechts"
+    },
+    {
+      "field": 2,
       "name": "D2",
       "type": "maennliche-jugend",
       "time": "17:00 - 18:30",
-      "kabine": "X",
-      "style": { "top": "8%", "left": "5%", "width": "43%", "height": "41%" }
+      "kabine": "Kabine X",
+      "position": "oben-links"
     },
     {
-      "field": 1,
+      "field": 2,
       "name": "E1",
       "type": "maennliche-jugend",
       "time": "17:00 - 18:30",
-      "kabine": "X",
-      "style": { "top": "8%", "right": "5%", "width": "43%", "height": "41%" }
+      "kabine": "Kabine X",
+      "position": "oben-rechts"
+    },
+    {
+      "field": 2,
+      "name": "D3",
+      "type": "maennliche-jugend",
+      "time": "17:30 - 19:00",
+      "kabine": "Kabine X",
+      "position": "unten-links"
+    },
+    {
+      "field": 2,
+      "name": "E4",
+      "type": "maennliche-jugend",
+      "time": "17:00 - 18:30",
+      "kabine": "Kabine X",
+      "position": "unten-rechts"
+    },
+    {
+      "field": 2,
+      "name": "Damen Irish Rover",
+      "type": "frauen",
+      "time": "19:00 - 21:00",
+      "kabine": "Kabine X",
+      "position": "mittig"
     }
   ]
 }
