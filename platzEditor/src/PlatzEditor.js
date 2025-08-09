@@ -78,10 +78,12 @@ export default function PlatzEditor() {
     { name: 'Grün', hex: '#10b981' }
 ];
 
-  const visibleTeams = teams.filter(
-  t => t.tage.includes(selectedDay) && 
-  (selectedTeamView === 'Alle' || selectedTeamView === t.id.toString())
-);
+  const visibleTeams = teams.filter(t => {
+  if (selectedTeamView === 'Alle') {
+    return t.tage.includes(selectedDay);
+  }
+  return t.id.toString() === selectedTeamView;
+});
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'Inter, sans-serif', backgroundColor: '#f9fafb', minHeight: '100vh' }}>
