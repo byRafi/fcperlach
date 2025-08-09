@@ -10,7 +10,7 @@ export default function PlatzEditor() {
     teamname: '',
     zeit: '',
     jugend: '',
-    tag: 'Montag',
+    tage: ['Montag'],
     platz: 'KS2',
     position: { x: 50, y: 50 },
     size: { width: 120, height: 80 },
@@ -34,7 +34,7 @@ export default function PlatzEditor() {
     }
     setTeams(updated);
     setForm({
-      teamname: '', zeit: '', jugend: '', tag: 'Montag', platz: 'KS2', position: { x: 50, y: 50 }, size: { width: 120, height: 80 }, color: '#3b82f6'
+      teamname: '', zeit: '', jugend: '', tage: ['Montag'], platz: 'KS2', position: { x: 50, y: 50 }, size: { width: 120, height: 80 }, color: '#3b82f6'
     });
     setSelected(null);
   };
@@ -48,7 +48,7 @@ export default function PlatzEditor() {
     const updated = teams.filter((_, i) => i !== index);
     setTeams(updated);
     if (selected === index) {
-      setForm({ teamname: '', zeit: '', jugend: '', tag: 'Montag', platz: 'KS2', position: { x: 50, y: 50 }, size: { width: 120, height: 80 }, color: '#3b82f6' });
+      setForm({ teamname: '', zeit: '', jugend: '', tage: ['Montag'], platz: 'KS2', position: { x: 50, y: 50 }, size: { width: 120, height: 80 }, color: '#3b82f6' });
       setSelected(null);
     }
   };
@@ -75,7 +75,16 @@ export default function PlatzEditor() {
     setTeams(updated);
   };
 
-  const visibleTeams = teams.filter(t => t.tag === selectedDay && (selectedTeamView === 'Alle' || selectedTeamView === t.teamname));
+  const toggleDayInForm = (day) => {
+    setForm((prev) => {
+      const tage = prev.tage.includes(day)
+        ? prev.tage.filter((d) => d !== day)
+        : [...prev.tage, day];
+      return { ...prev, tage };
+    });
+  };
+
+  const visibleTeams = teams.filter(t => t.tage.includes(selectedDay) && (selectedTeamView === 'Alle' || selectedTeamView === t.teamname));
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'Inter, sans-serif', backgroundColor: '#f9fafb', minHeight: '100vh' }}>
@@ -85,9 +94,13 @@ export default function PlatzEditor() {
           <input placeholder="Trainer" value={form.teamname} onChange={e => setForm({ ...form, teamname: e.target.value })} />
           <input placeholder="Trainingszeit" value={form.zeit} onChange={e => setForm({ ...form, zeit: e.target.value })} />
           <input placeholder="Jugend (z. B. D1)" value={form.jugend} onChange={e => setForm({ ...form, jugend: e.target.value })} />
-          <select value={form.tag} onChange={e => setForm({ ...form, tag: e.target.value })}>
-            {weekdays.map(day => <option key={day}>{day}</option>)}
-          </select>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+            {weekdays.map(day => (
+              <label key={day} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                <input type="checkbox" checked={form.tage.includes(day)} onChange={() => toggleDayInForm(day)} /> {day}
+              </label>
+            ))}
+          </div>
           <select value={form.platz} onChange={e => setForm({ ...form, platz: e.target.value })}>
             {fields.map(p => <option key={p}>{p}</option>)}
           </select>
@@ -111,7 +124,7 @@ export default function PlatzEditor() {
       </div>
 
       <div style={{ marginTop: '2rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '2rem' }}>
           {fields.map(feld => (
             <div key={feld}>
               <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#111827' }}>{feld}</h3>
@@ -140,10 +153,12 @@ export default function PlatzEditor() {
                       justifyContent: 'center',
                       alignItems: 'center',
                       cursor: 'move',
-                      zIndex: 10
+                      zIndex: 10,
+                      position: 'absolute'
                     }}
                   >
                     <div>
+                      {t.jugend}<br />
                       {t.zeit}<br />
                       <strong>{t.teamname}</strong>
                     </div>
