@@ -1,0 +1,20 @@
+{
+  "montag": [
+    {
+      "field": 1,
+      "name": "D2",
+      "type": "maennliche-jugend",
+      "time": "17:00 - 18:30",
+      "kabine": "X",
+      "style": { "top": "8%", "left": "5%", "width": "43%", "height": "41%" }
+    },
+    {
+      "field": 1,
+      "name": "E1",
+      "type": "maennliche-jugend",
+      "time": "17:00 - 18:30",
+      "kabine": "X",
+      "style": { "top": "8%", "right": "5%", "width": "43%", "height": "41%" }
+    }
+  ]
+}
