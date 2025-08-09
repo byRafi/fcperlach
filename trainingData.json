@@ -14,7 +14,7 @@
       "position": "ganz"
     },
     {
-      "field": "Rasen",
+      "field": "KS2",
       "name": "E1w",
       "type": "weibliche-jugend",
       "time": "17:30 - 19:00",
@@ -22,7 +22,7 @@
       "position": "oben-links"
     },
     {
-      "field": "Rasen",
+      "field": "KS2",
       "name": "B1w",
       "type": "weibliche-jugend",
       "time": "18:00 - 19:30",
@@ -30,7 +30,7 @@
       "position": "oben-rechts"
     },
     {
-      "field": "Rasen",
+      "field": "KS2",
       "name": "C1w",
       "type": "weibliche-jugend",
       "time": "18:00 - 19:30",
@@ -38,7 +38,7 @@
       "position": "unten-links"
     },
     {
-      "field": "Rasen",
+      "field": "ks2",
       "name": "D1w",
       "type": "weibliche-jugend",
       "time": "17:30 - 19:00",
