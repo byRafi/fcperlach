@@ -119,6 +119,26 @@ export default function PlatzEditor() {
   </option>
 ))}
 </select>
+  {selected !== null && (
+  <button
+    onClick={() => {
+      if (window.confirm("Möchtest du dieses Team wirklich löschen?")) {
+        deleteTeam(selected);
+      }
+    }}
+    style={{
+      backgroundColor: '#ef4444',
+      color: 'white',
+      padding: '0.5rem',
+      borderRadius: '0.5rem',
+      fontWeight: 'bold',
+      border: 'none',
+      marginTop: '0.5rem'
+    }}
+  >
+    Team löschen
+  </button>
+)}
         </div>
       </div>
 
