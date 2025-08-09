@@ -61,27 +61,27 @@ export default function PlatzEditor() {
   };
 
   const updateDrag = (id, d, feld) => {
-  const bounds = fieldRefs.current[feld]?.getBoundingClientRect();
-  const team = teams.find(t => t.id === id);
-  if (!bounds || !team) return;
+    const bounds = fieldRefs.current[feld]?.getBoundingClientRect();
+    const team = teams.find(t => t.id === id);
+    if (!bounds || !team) return;
 
-  const pxW = (team.sizePercent.width / 100) * bounds.width;
-  const pxH = (team.sizePercent.height / 100) * bounds.height;
+    const pxW = (team.sizePercent.width / 100) * bounds.width;
+    const pxH = (team.sizePercent.height / 100) * bounds.height;
 
-  const maxX = bounds.width - pxW;
-  const maxY = bounds.height - pxH;
+    const maxX = bounds.width - pxW;
+    const maxY = bounds.height - pxH;
 
-  const clampedX = Math.max(0, Math.min(d.x, maxX));
-  const clampedY = Math.max(0, Math.min(d.y, maxY));
+    const clampedX = Math.max(0, Math.min(d.x, maxX));
+    const clampedY = Math.max(0, Math.min(d.y, maxY));
 
-  const percentX = (clampedX / bounds.width) * 100;
-  const percentY = (clampedY / bounds.height) * 100;
+    const percentX = (clampedX / bounds.width) * 100;
+    const percentY = (clampedY / bounds.height) * 100;
 
-  updateById(id, t => ({
-    ...t,
-    positionPercent: { x: percentX, y: percentY }
-  }));
-};
+    updateById(id, t => ({
+      ...t,
+      positionPercent: { x: percentX, y: percentY }
+    }));
+  };
 
   const updateSize = (id, widthPx, heightPx, feld) => {
     const bounds = fieldRefs.current[feld]?.getBoundingClientRect();
@@ -169,11 +169,11 @@ export default function PlatzEditor() {
                     <Rnd
                       key={t.id}
                       bounds="parent"
-                      defaultSize={{ width: pxW, height: pxH }}
+                      size={{ width: pxW, height: pxH }}
                       position={{ x: pxX, y: pxY }}
                       dragGrid={[gridSize, gridSize]}
                       resizeGrid={[gridSize, gridSize]}
-                      enableResizing={{ bottomRight: true }}
+                      enableResizing
                       onDragStop={(_, d) => updateDrag(t.id, d, feld)}
                       onResizeStop={(_, __, ref, __delta, pos) => {
                         updateSize(t.id, parseInt(ref.style.width), parseInt(ref.style.height), feld);
