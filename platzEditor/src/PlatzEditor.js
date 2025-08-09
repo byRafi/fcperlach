@@ -72,12 +72,11 @@ export default function PlatzEditor() {
   const fields = ['KS2', 'KS1', 'Rasen'];
   const weekdays = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag'];
   const colors = [
-    { name: 'Blau', hex: '#3b82f6' },
-    { name: 'Grün', hex: '#10b981' },
-    { name: 'Orange', hex: '#f59e0b' },
+    { name: 'Hellblau', hex: '#60a5fa' },
+    { name: 'Lila', hex: '#8b5cf6' },
     { name: 'Rot', hex: '#ef4444' },
-    { name: 'Lila', hex: '#6366f1' }
-  ];
+    { name: 'Grün', hex: '#10b981' }
+];
 
   const visibleTeams = teams.filter(t => t.tage.includes(selectedDay) && (selectedTeamView === 'Alle' || selectedTeamView === t.teamname));
 
@@ -105,6 +104,16 @@ export default function PlatzEditor() {
             ))}
           </select>
           <button onClick={saveTeam} style={{ backgroundColor: '#2563eb', color: 'white', padding: '0.75rem', borderRadius: '0.5rem', fontWeight: 'bold', border: 'none' }}>{selected !== null ? 'Team aktualisieren' : 'Team speichern'}</button>
+
+<select onChange={e => {
+  const team = teams.find(t => t.id.toString() === e.target.value);
+  if (team) editTeam(team);
+}} style={{ marginTop: '0.5rem', padding: '0.5rem', borderRadius: '0.5rem' }}>
+  <option value="">Team bearbeiten...</option>
+  {teams.map(t => (
+    <option key={t.id} value={t.id}>{t.teamname}</option>
+  ))}
+</select>
         </div>
       </div>
 
@@ -125,7 +134,7 @@ export default function PlatzEditor() {
               <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#111827' }}>{feld}</h3>
               <div
                 ref={el => (fieldRefs.current[feld] = el)}
-                style={{ position: 'relative', width: '501px', height: '741px', backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/4/45/Football_field.svg)', backgroundSize: '100% 100%', backgroundPosition: 'center', borderRadius: '1rem', padding: '1rem', margin: '0 auto' }}
+                style={{ position: 'relative', width: '500px', height: '740px', backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/4/45/Football_field.svg)', backgroundSize: '100% 100%', backgroundPosition: 'center', borderRadius: '1rem', padding: '1rem', margin: '0 auto' }}
               >
                 {visibleTeams.filter(t => t.platz === feld).map((t) => {
                   const bounds = fieldRefs.current[feld]?.getBoundingClientRect() || { width: 1, height: 1 };
@@ -136,62 +145,55 @@ export default function PlatzEditor() {
 
                   return (
                     <Rnd
-  key={t.id}
-  bounds="parent"
-  position={{ x: pxX, y: pxY }}
-  size={{ width: pxW, height: pxH }}
-  dragGrid={[gridSize, gridSize]}
-  resizeGrid={[gridSize, gridSize]}
-  enableResizing
-  onDragStop={(_, d) => {
-    const clampedX = Math.max(0, Math.min(d.x, bounds.width - pxW));
-    const clampedY = Math.max(0, Math.min(d.y, bounds.height - pxH));
-    const percentX = (clampedX / bounds.width) * 100;
-    const percentY = (clampedY / bounds.height) * 100;
-    updateById(t.id, tt => ({ ...tt, positionPercent: { x: percentX, y: percentY } }));
-  }}
-  onResizeStop={(_, __, ref, __delta, pos) => {
-    const newW = parseInt(ref.style.width);
-    const newH = parseInt(ref.style.height);
-    const percentW = (newW / bounds.width) * 100;
-    const percentH = (newH / bounds.height) * 100;
-    const percentX = (pos.x / bounds.width) * 100;
-    const percentY = (pos.y / bounds.height) * 100;
-    updateById(t.id, tt => ({
-      ...tt,
-      sizePercent: { width: percentW, height: percentH },
-      positionPercent: {
-        x: Math.max(0, Math.min(percentX, 100 - percentW)),
-        y: Math.max(0, Math.min(percentY, 100 - percentH))
-      }
-    }));
-  }}
-  style={{
-    backgroundColor: t.color,
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    padding: '0.5rem',
-    borderRadius: '0.5rem',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    cursor: 'move',
-    zIndex: 10,
-    position: 'absolute'
-  }}
->
-  <div>
-    {t.jugend}<br />
-    {t.zeit}<br />
-    <strong>{t.teamname}</strong>
-    <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.25rem' }}>
-      <button onClick={() => editTeam(t)} style={{ fontSize: '0.75rem', background: 'white', color: '#111827', borderRadius: '0.25rem' }}>✏️</button>
-      <button onClick={() => deleteTeam(t.id)} style={{ fontSize: '0.75rem', background: 'white', color: 'red', borderRadius: '0.25rem' }}>🗑️</button>
-    </div>
-  </div>
-</Rnd>
+                      key={t.id}
+                      bounds="parent"
+                      position={{ x: pxX, y: pxY }}
+                      size={{ width: pxW, height: pxH }}
+                      dragGrid={[gridSize, gridSize]}
+                      resizeGrid={[gridSize, gridSize]}
+                      enableResizing
+                      onDragStop={(_, d) => {
+                        const clampedX = Math.max(0, Math.min(d.x, bounds.width - pxW));
+                        const clampedY = Math.max(0, Math.min(d.y, bounds.height - pxH));
+                        const percentX = (clampedX / bounds.width) * 100;
+                        const percentY = (clampedY / bounds.height) * 100;
+                        updateById(t.id, tt => ({ ...tt, positionPercent: { x: percentX, y: percentY } }));
+                      }}
+                      onResizeStop={(_, __, ref, __delta, pos) => {
+                        const newW = parseInt(ref.style.width);
+                        const newH = parseInt(ref.style.height);
+                        const percentW = (newW / bounds.width) * 100;
+                        const percentH = (newH / bounds.height) * 100;
+                        const percentX = (pos.x / bounds.width) * 100;
+                        const percentY = (pos.y / bounds.height) * 100;
+                        updateById(t.id, tt => ({
+                          ...tt,
+                          sizePercent: { width: percentW, height: percentH },
+                          positionPercent: { x: Math.max(0, Math.min(percentX, 100 - percentW)), y: Math.max(0, Math.min(percentY, 100 - percentH)) }
+                        }));
+                      }}
+                      style={{
+                        backgroundColor: t.color,
+                        color: 'white',
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                        padding: '0.5rem',
+                        borderRadius: '0.5rem',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        cursor: 'move',
+                        zIndex: 10,
+                        position: 'absolute'
+                      }}
+                    >
+                      <div>
+                        {t.jugend}<br />
+                        {t.zeit}<br />
+                        <strong>{t.teamname}</strong>
+                      </div>
+                    </Rnd>
                   );
                 })}
               </div>
