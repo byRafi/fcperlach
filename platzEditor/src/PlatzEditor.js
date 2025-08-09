@@ -18,7 +18,7 @@ export default function PlatzEditor() {
   });
   const [selected, setSelected] = useState(null);
   const fieldRefs = useRef({});
-  const gridSize = 20;
+  const gridSize = 5;
 
   useEffect(() => {
     fetch('https://raw.githubusercontent.com/byRafi/fcperlach/main/Teamdaten.json')
