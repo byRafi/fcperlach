@@ -127,7 +127,7 @@ export default function PlatzEditor() {
       {weekdays.map(day => <option key={day}>{day}</option>)}
     </select>
   </div>
-  <div style={{
+<div style={{
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -139,22 +139,21 @@ export default function PlatzEditor() {
   <label style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>Alle Teams</label>
   <select value={selectedTeamView} onChange={e => {
     const selectedId = e.target.value;
-    if (selectedId === 'Alle') {
+    if (!selectedId) {
       setSelectedTeamView('Alle');
       setSelectedDay('Montag');
-    } else {
-      const team = teams.find(t => t.id.toString() === selectedId);
-      if (team) {
-        setSelectedTeamView(team.teamname);
-        setSelectedDay(team.tage[0]);
-      }
+      return;
+    }
+    const team = teams.find(t => t.id.toString() === selectedId);
+    if (team) {
+      setSelectedTeamView(team.teamname);
+      setSelectedDay(team.tage[0]);
     }
   }} style={{ padding: '0.5rem', borderRadius: '0.5rem' }}>
-    <option value="Alle">Alle Teams</option>
+    <option value=\"\">-- Bitte Team wählen --</option>
+    <option value=\"Alle\">Alle Teams</option>
     {teams.map(t => (
-      <option key={t.id} value={t.id}>
-        {t.jugend} - {t.teamname}
-      </option>
+      <option key={t.id} value={t.id}>{t.jugend} - {t.teamname}</option>
     ))}
   </select>
 </div>
