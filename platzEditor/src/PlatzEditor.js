@@ -153,7 +153,7 @@ export default function PlatzEditor() {
                     <Rnd
                       key={t.id}
                       bounds="parent"
-                      size={{ width: pxW, height: pxH }}
+                      defaultSize={{ width: pxW, height: pxH }}
                       position={{ x: pxX, y: pxY }}
                       onDragStop={(_, d) => updateDrag(t.id, d, feld)}
                       onResizeStop={(_, __, ref, __delta, pos) => {
