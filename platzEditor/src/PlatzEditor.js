@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Draggable from 'react-draggable';
+import { Rnd } from 'react-rnd';
 import './index.css';
 
 export default function PlatzEditor() {
