@@ -63,8 +63,10 @@ export default function PlatzEditor() {
   const updateDrag = (id, d, feld) => {
     const bounds = fieldRefs.current[feld]?.getBoundingClientRect();
     if (!bounds) return;
-    const percentX = (d.x / bounds.width) * 100;
-    const percentY = (d.y / bounds.height) * 100;
+    const clampedX = Math.max(0, Math.min(d.x, bounds.width));
+    const clampedY = Math.max(0, Math.min(d.y, bounds.height));
+    const percentX = (clampedX / bounds.width) * 100;
+    const percentY = (clampedY / bounds.height) * 100;
     updateById(id, t => ({ ...t, positionPercent: { x: percentX, y: percentY } }));
   };
 
@@ -135,7 +137,7 @@ export default function PlatzEditor() {
       </div>
 
       <div style={{ marginTop: '2rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '2rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           {fields.map(feld => (
             <div key={feld}>
               <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#111827' }}>{feld}</h3>
@@ -158,6 +160,7 @@ export default function PlatzEditor() {
                       position={{ x: pxX, y: pxY }}
                       dragGrid={[gridSize, gridSize]}
                       resizeGrid={[gridSize, gridSize]}
+                      enableResizing={{ bottomRight: true }}
                       onDragStop={(_, d) => updateDrag(t.id, d, feld)}
                       onResizeStop={(_, __, ref, __delta, pos) => {
                         updateSize(t.id, parseInt(ref.style.width), parseInt(ref.style.height), feld);
