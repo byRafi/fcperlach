@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Rnd } from 'react-rnd';
 import './index.css';
 
@@ -12,11 +12,12 @@ export default function PlatzEditor() {
     jugend: '',
     tage: ['Montag'],
     platz: 'KS2',
-    position: { x: 50, y: 50 },
-    size: { width: 120, height: 80 },
+    positionPercent: { x: 5, y: 5 },
+    sizePercent: { width: 20, height: 15 },
     color: '#3b82f6'
   });
   const [selected, setSelected] = useState(null);
+  const fieldRefs = useRef({});
 
   useEffect(() => {
     fetch('https://raw.githubusercontent.com/byRafi/fcperlach/main/Teamdaten.json')
@@ -34,7 +35,7 @@ export default function PlatzEditor() {
     }
     setTeams(updated);
     setForm({
-      teamname: '', zeit: '', jugend: '', tage: ['Montag'], platz: 'KS2', position: { x: 50, y: 50 }, size: { width: 120, height: 80 }, color: '#3b82f6'
+      teamname: '', zeit: '', jugend: '', tage: ['Montag'], platz: 'KS2', positionPercent: { x: 5, y: 5 }, sizePercent: { width: 20, height: 15 }, color: '#3b82f6'
     });
     setSelected(null);
   };
@@ -48,7 +49,7 @@ export default function PlatzEditor() {
     const updated = teams.filter((t) => t.id !== id);
     setTeams(updated);
     if (selected === id) {
-      setForm({ teamname: '', zeit: '', jugend: '', tage: ['Montag'], platz: 'KS2', position: { x: 50, y: 50 }, size: { width: 120, height: 80 }, color: '#3b82f6' });
+      setForm({ teamname: '', zeit: '', jugend: '', tage: ['Montag'], platz: 'KS2', positionPercent: { x: 5, y: 5 }, sizePercent: { width: 20, height: 15 }, color: '#3b82f6' });
       setSelected(null);
     }
   };
@@ -58,18 +59,20 @@ export default function PlatzEditor() {
     setTeams(updated);
   };
 
-  const updateDrag = (id, data) => {
-    updateById(id, t => ({ ...t, position: { x: data.x, y: data.y } }));
+  const updateDrag = (id, d, feld) => {
+    const bounds = fieldRefs.current[feld]?.getBoundingClientRect();
+    if (!bounds) return;
+    const percentX = (d.x / bounds.width) * 100;
+    const percentY = (d.y / bounds.height) * 100;
+    updateById(id, t => ({ ...t, positionPercent: { x: percentX, y: percentY } }));
   };
 
-  const updateSize = (id, width, height) => {
-    updateById(id, t => ({
-      ...t,
-      size: {
-        width: width,
-        height: height
-      }
-    }));
+  const updateSize = (id, widthPx, heightPx, feld) => {
+    const bounds = fieldRefs.current[feld]?.getBoundingClientRect();
+    if (!bounds) return;
+    const width = (widthPx / bounds.width) * 100;
+    const height = (heightPx / bounds.height) * 100;
+    updateById(id, t => ({ ...t, sizePercent: { width, height } }));
   };
 
   const toggleDayInForm = (day) => {
@@ -135,41 +138,52 @@ export default function PlatzEditor() {
           {fields.map(feld => (
             <div key={feld}>
               <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#111827' }}>{feld}</h3>
-              <div style={{ position: 'relative', backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/4/45/Football_field.svg)', backgroundSize: 'cover', backgroundPosition: 'center', height: 740, borderRadius: '1rem', padding: '1rem' }}>
-                {visibleTeams.filter(t => t.platz === feld).map((t) => (
-                  <Rnd
-                    key={t.id}
-                    bounds="parent"
-                    defaultSize={{ width: t.size.width, height: t.size.height }}
-                    position={t.position}
-                    onDragStop={(_, d) => updateDrag(t.id, d)}
-                    onResizeStop={(_, __, ref, __delta, pos) => {
-                      updateSize(t.id, parseInt(ref.style.width), parseInt(ref.style.height));
-                      updateDrag(t.id, pos);
-                    }}
-                    style={{
-                      backgroundColor: t.color,
-                      color: 'white',
-                      fontWeight: 'bold',
-                      textAlign: 'center',
-                      padding: '0.5rem',
-                      borderRadius: '0.5rem',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      cursor: 'move',
-                      zIndex: 10,
-                      position: 'absolute'
-                    }}
-                  >
-                    <div>
-                      {t.jugend}<br />
-                      {t.zeit}<br />
-                      <strong>{t.teamname}</strong>
-                    </div>
-                  </Rnd>
-                ))}
+              <div
+                ref={el => (fieldRefs.current[feld] = el)}
+                style={{ position: 'relative', backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/4/45/Football_field.svg)', backgroundSize: 'cover', backgroundPosition: 'center', height: 740, borderRadius: '1rem', padding: '1rem' }}
+              >
+                {visibleTeams.filter(t => t.platz === feld).map((t) => {
+                  const bounds = fieldRefs.current[feld]?.getBoundingClientRect() || { width: 1, height: 1 };
+                  const pxX = (t.positionPercent.x / 100) * bounds.width;
+                  const pxY = (t.positionPercent.y / 100) * bounds.height;
+                  const pxW = (t.sizePercent.width / 100) * bounds.width;
+                  const pxH = (t.sizePercent.height / 100) * bounds.height;
+
+                  return (
+                    <Rnd
+                      key={t.id}
+                      bounds="parent"
+                      defaultSize={{ width: pxW, height: pxH }}
+                      position={{ x: pxX, y: pxY }}
+                      onDragStop={(_, d) => updateDrag(t.id, d, feld)}
+                      onResizeStop={(_, __, ref, __delta, pos) => {
+                        updateSize(t.id, parseInt(ref.style.width), parseInt(ref.style.height), feld);
+                        updateDrag(t.id, pos, feld);
+                      }}
+                      style={{
+                        backgroundColor: t.color,
+                        color: 'white',
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                        padding: '0.5rem',
+                        borderRadius: '0.5rem',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        cursor: 'move',
+                        zIndex: 10,
+                        position: 'absolute'
+                      }}
+                    >
+                      <div>
+                        {t.jugend}<br />
+                        {t.zeit}<br />
+                        <strong>{t.teamname}</strong>
+                      </div>
+                    </Rnd>
+                  );
+                })}
               </div>
             </div>
           ))}
