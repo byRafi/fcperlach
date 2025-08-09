@@ -136,55 +136,62 @@ export default function PlatzEditor() {
 
                   return (
                     <Rnd
-                      key={t.id}
-                      bounds="parent"
-                      position={{ x: pxX, y: pxY }}
-                      size={{ width: pxW, height: pxH }}
-                      dragGrid={[gridSize, gridSize]}
-                      resizeGrid={[gridSize, gridSize]}
-                      enableResizing
-                      onDragStop={(_, d) => {
-                        const clampedX = Math.max(0, Math.min(d.x, bounds.width - pxW));
-                        const clampedY = Math.max(0, Math.min(d.y, bounds.height - pxH));
-                        const percentX = (clampedX / bounds.width) * 100;
-                        const percentY = (clampedY / bounds.height) * 100;
-                        updateById(t.id, tt => ({ ...tt, positionPercent: { x: percentX, y: percentY } }));
-                      }}
-                      onResizeStop={(_, __, ref, __delta, pos) => {
-                        const newW = parseInt(ref.style.width);
-                        const newH = parseInt(ref.style.height);
-                        const percentW = (newW / bounds.width) * 100;
-                        const percentH = (newH / bounds.height) * 100;
-                        const percentX = (pos.x / bounds.width) * 100;
-                        const percentY = (pos.y / bounds.height) * 100;
-                        updateById(t.id, tt => ({
-                          ...tt,
-                          sizePercent: { width: percentW, height: percentH },
-                          positionPercent: { x: Math.max(0, Math.min(percentX, 100 - percentW)), y: Math.max(0, Math.min(percentY, 100 - percentH)) }
-                        }));
-                      }}
-                      style={{
-                        backgroundColor: t.color,
-                        color: 'white',
-                        fontWeight: 'bold',
-                        textAlign: 'center',
-                        padding: '0.5rem',
-                        borderRadius: '0.5rem',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        cursor: 'move',
-                        zIndex: 10,
-                        position: 'absolute'
-                      }}
-                    >
-                      <div>
-                        {t.jugend}<br />
-                        {t.zeit}<br />
-                        <strong>{t.teamname}</strong>
-                      </div>
-                    </Rnd>
+  key={t.id}
+  bounds="parent"
+  position={{ x: pxX, y: pxY }}
+  size={{ width: pxW, height: pxH }}
+  dragGrid={[gridSize, gridSize]}
+  resizeGrid={[gridSize, gridSize]}
+  enableResizing
+  onDragStop={(_, d) => {
+    const clampedX = Math.max(0, Math.min(d.x, bounds.width - pxW));
+    const clampedY = Math.max(0, Math.min(d.y, bounds.height - pxH));
+    const percentX = (clampedX / bounds.width) * 100;
+    const percentY = (clampedY / bounds.height) * 100;
+    updateById(t.id, tt => ({ ...tt, positionPercent: { x: percentX, y: percentY } }));
+  }}
+  onResizeStop={(_, __, ref, __delta, pos) => {
+    const newW = parseInt(ref.style.width);
+    const newH = parseInt(ref.style.height);
+    const percentW = (newW / bounds.width) * 100;
+    const percentH = (newH / bounds.height) * 100;
+    const percentX = (pos.x / bounds.width) * 100;
+    const percentY = (pos.y / bounds.height) * 100;
+    updateById(t.id, tt => ({
+      ...tt,
+      sizePercent: { width: percentW, height: percentH },
+      positionPercent: {
+        x: Math.max(0, Math.min(percentX, 100 - percentW)),
+        y: Math.max(0, Math.min(percentY, 100 - percentH))
+      }
+    }));
+  }}
+  style={{
+    backgroundColor: t.color,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: '0.5rem',
+    borderRadius: '0.5rem',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    cursor: 'move',
+    zIndex: 10,
+    position: 'absolute'
+  }}
+>
+  <div>
+    {t.jugend}<br />
+    {t.zeit}<br />
+    <strong>{t.teamname}</strong>
+    <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.25rem' }}>
+      <button onClick={() => editTeam(t)} style={{ fontSize: '0.75rem', background: 'white', color: '#111827', borderRadius: '0.25rem' }}>✏️</button>
+      <button onClick={() => deleteTeam(t.id)} style={{ fontSize: '0.75rem', background: 'white', color: 'red', borderRadius: '0.25rem' }}>🗑️</button>
+    </div>
+  </div>
+</Rnd>
                   );
                 })}
               </div>
