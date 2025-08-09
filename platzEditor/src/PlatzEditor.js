@@ -143,7 +143,11 @@ export default function PlatzEditor() {
       }
     }} style={{ padding: '0.5rem', borderRadius: '0.5rem' }}>
       <option value="Alle">Alle Teams</option>
-      {teams.map(t => <option key={t.id} value={t.id}>{t.teamname}</option>)}
+       {teams.map(t => (
+  <option key={t.id} value={t.id}>
+    {t.jugend} - {t.teamname}
+  </option>
+))}
     </select>
   </div>
 </div>
